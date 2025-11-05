@@ -1,0 +1,2 @@
+-first install all packages using terminal command "npm install"
+-to run the server in browser : type 'npm run dev' in your terminal and it will start the server and provide the link
