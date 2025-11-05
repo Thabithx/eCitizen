@@ -1,0 +1,160 @@
+/* Base Footer Container */
+.footer {
+  background: #fafafa; /* soft off-white */
+  border-top: 1px solid #e5e5e5;
+  font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #333;
+  letter-spacing: 0.2px;
+}
+
+/* Section Spacing */
+.footer .container {
+  max-width: 1200px;
+}
+
+/* Logo */
+.footer img {
+  height: 42px;
+  filter: grayscale(100%);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.footer img:hover {
+  opacity: 1;
+}
+
+/* Headings */
+.footer h5,
+.footer h6 {
+  color: #111;
+  letter-spacing: 0.5px;
+}
+
+.footer h6 {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Paragraph text */
+.footer p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Divider */
+.footer hr {
+  border-color: #ddd;
+  opacity: 0.5;
+  margin: 3rem auto;
+  max-width: 800px;
+}
+
+/* Subscribe Input */
+#subscribe-form input {
+  background: #fff;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  transition: box-shadow 0.2s ease;
+}
+
+#subscribe-form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #00000020;
+}
+
+#subscribe-form button {
+  border-radius: 30px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+#subscribe-form button:hover {
+  transform: scale(1.05);
+}
+
+/* Quick Links (Apple-style) */
+.footer-links a {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: inline-block;
+  position: relative;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.footer-links a:hover {
+  color: #000;
+  transform: translateY(-1px);
+}
+
+/* Optional Apple underline animation */
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #000;
+  transition: width 0.25s ease;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+/* Contact Section */
+.footer ul {
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.footer ul li {
+  color: #555;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+/* Social Icons */
+.social-link {
+  color: #555;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  color: #000;
+  transform: scale(1.15);
+}
+
+/* Copyright Text */
+.footer .text-center {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+  .footer {
+    text-align: center;
+  }
+
+  #subscribe-form {
+    flex-direction: column;
+  }
+
+  #subscribe-form input {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  #subscribe-form button {
+    width: 100%;
+  }
+}
