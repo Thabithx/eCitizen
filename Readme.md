@@ -1,2 +1,16 @@
--first install all packages using terminal command "npm install"
--to run the server in browser : type 'npm run dev' in your terminal and it will start the server and provide the link
+steps to setup
+
+1.Install backend dependencies
+   cd backend
+   npm install
+
+2.Start the server
+   npm run dev
+
+3. Access the application
+   http://localhost:3030
+
+
+## admin log
+anura@gmail.com
+anura123

@@ -1,29 +1,12 @@
 const mongoose = require('mongoose');
 
 const citizenSchema = new mongoose.Schema(
-   {
-    fullName: {
-      type: String,
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
-      trim: true,
-    },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-    },
-
-    password: {
-      type: String,
-      required: true,
-    },
-
-    role: {
-      type: String,
-      enum: ["citizen", "admin"],
-      default: "citizen",
+      ref: 'User',
+      unique: true
     },
 
     applicationStatus: {
@@ -53,9 +36,69 @@ const citizenSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+
+    address: {
+      type: String,
+      required: true,
+    },
+
+    photo: {
+      type: String,
+      default: null,
+    },
+
+    birthCertificate: {
+      type: String,
+      required: true,
+    },
+
+    proofOfAddress: {
+      type: String,
+      required: true,
+    },
+
+    educationalCert: {
+      type: String,
+      default: null,
+    },
+
+    additionalDocs: [{
+      type: String,
+    }],
+
+
+    nidNumber: {
+      type: String,
+      default: null,
+      unique: true,
+      sparse: true, 
+      index: true
+    },
+
+    nidDocument: {
+      type: String,
+      default: null,
+    },
+
+    nidIssuedDate: {
+      type: Date,
+      default: null,
+    },
+
+    nidStatus: {
+      type: String,
+      enum: ['pending', 'issued', 'revoked'],
+      default: 'pending',
+    },
   },
   {
     timestamps: true,
+    collection: 'citizens'
   }
 );
 

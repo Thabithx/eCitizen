@@ -1,23 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="../css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Support - eCitizen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/notifications.js" defer></script>
+    <style>
+        .faq-item {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+        .faq-item:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .faq-question {
+            padding: 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+        }
+        .faq-question i {
+            margin-right: 15px;
+            transition: transform 0.3s;
+            color: var(--primary-color, #0d6efd);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-top: 1px solid transparent;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        .faq-answer.show {
+            max-height: 500px; /* Adjust as needed */
+            padding: 1.25rem;
+            border-top-color: #e9ecef;
+        }
+        .contact-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+    </style>
 </head>
-<body>
-   <div id="header"></div>
-      //add faqs on top. 
-      //contact info 
-      //ask questions go to db 
-   <div id="footer"></div>
-   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="../js/index.js"></script>
+<body class="bg-light" style="padding-top: 80px;">
+    
+    <div id="header"></div>
+
+    <div class="container py-5">
+        <div class="text-center mb-5 fade-in-up">
+            <h1 class="display-5 fw-bold text-dark">How can we help?</h1>
+            <p class="lead text-muted">Find answers to common questions or get in touch with our team.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- FAQs Section -->
+            <div class="col-lg-7 fade-in-left">
+                <div class="mb-4">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-question-circle-fill text-primary me-2"></i>Frequently Asked Questions</h3>
+                    <div id="faqsDisplay">
+                        <div class="text-center py-4 text-muted">
+                            <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                            Loading FAQs...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form Section -->
+            <div class="col-lg-5 fade-in-right">
+                <div class="contact-card sticky-top" style="top: 100px;">
+                    <h3 class="fw-bold mb-4"><i class="bi bi-envelope-fill text-primary me-2"></i>Contact Us</h3>
+                    
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="4" placeholder="How can we help you?" required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary py-2">
+                                <i class="bi bi-send-fill me-2"></i>Send Message
+                            </button>
+                        </div>
+                        <div id="formAlert" class="alert mt-3" style="display: none;"></div>
+                    </form>
+
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="bi bi-telephone text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Call Us</small>
+                                <span class="fw-semibold">(011) 5226100</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="bi bi-geo-alt text-primary"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Visit Us</small>
+                                <span class="fw-semibold">Department for Citizenship Services</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/index.js"></script>
+    <script>
+        // Load header and footer
+        fetch('../components/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+            });
+        
+        fetch('../components/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+    <script src="../js/contact.js"></script>
 </body>
 </html>

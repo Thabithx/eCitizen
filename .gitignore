@@ -1,4 +1,8 @@
 node_modules/
 .env
 .DS_Store
-package-lock.json
+backend/uploads/
+uploads/
+*.log
+*.mp4
+frontend/images/herovid.mp4

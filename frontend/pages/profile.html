@@ -3,19 +3,458 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>My Profile - eCitizen</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="../css/styles.css">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="../css/styles.css">
+   <style>
+      body {
+         background: #f8f9fa;
+         min-height: 100vh;
+         padding-top: 70px;
+      }
+      
+      .profile-header {
+         background: white;
+         padding: 2.5rem 0;
+         border-bottom: 1px solid #e0e0e0;
+         margin-bottom: 2rem;
+         box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      }
+      
+      .profile-avatar {
+         width: 120px;
+         height: 120px;
+         border-radius: 50%;
+         background: #3498db;
+         color: white;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         font-size: 3.5rem;
+         margin-right: 2rem;
+         overflow: hidden;
+         box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+      }
+      
+      .profile-avatar img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+      }
+      
+      .status-badge {
+         padding: 0.5rem 1rem;
+         border-radius: 20px;
+         font-weight: 600;
+         font-size: 0.9rem;
+      }
+      
+      .status-pending { background: #fff3cd; color: #856404; }
+      .status-approved { background: #d4edda; color: #155724; }
+      .status-rejected { background: #f8d7da; color: #721c24; }
+      .status-initial { background: #e2e3e5; color: #383d41; }
+      
+      .card {
+         border: none;
+         border-radius: 15px;
+         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+         margin-bottom: 2rem;
+         overflow: hidden;
+      }
+      
+      .card-header {
+         background: white;
+         border-bottom: 1px solid #f0f0f0;
+         padding: 1.2rem 1.5rem;
+         font-weight: 600;
+         font-size: 1.1rem;
+      }
+      
+      .info-row {
+         margin-bottom: 1.2rem;
+         padding-bottom: 0.8rem;
+         border-bottom: 1px solid #f8f9fa;
+      }
+      
+      .info-row:last-child {
+         border-bottom: none;
+         margin-bottom: 0;
+      }
+      
+      .info-label {
+         color: #6c757d;
+         font-size: 0.85rem;
+         margin-bottom: 0.2rem;
+         text-transform: uppercase;
+         letter-spacing: 0.5px;
+      }
+      
+      .info-value {
+         font-weight: 500;
+         color: #2c3e50;
+         font-size: 1.05rem;
+      }
+   </style>
+   <script src="../js/notifications.js" defer></script>
 </head>
 <body>
    <div id="header"></div>
-      //client profile
+
+   <!-- Profile Header -->
+   <div class="profile-header">
+      <div class="container">
+         <div class="d-flex align-items-center">
+            <div class="profile-avatar" id="profileAvatar">
+               <i class="bi bi-person"></i>
+            </div>
+            <div>
+               <h2 class="mb-1" id="userName">Loading...</h2>
+               <p class="text-muted mb-2" id="userEmail">...</p>
+               <span class="status-badge status-initial" id="applicationStatus">Checking Status...</span>
+            </div>
+            <div class="ms-auto">
+               <button class="btn btn-outline-danger" id="logoutBtn">
+                  <i class="bi bi-box-arrow-right me-2"></i>Logout
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="container">
+      <div class="row">
+         <!-- Left Column: Details -->
+         <div class="col-md-8">
+            <!-- NID/Status Card -->
+            <div class="card">
+               <div class="card-header d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-file-earmark-text me-2"></i>Identity & Application</span>
+                  <a href="register.html" class="btn btn-sm btn-primary" id="completeAppBtn" style="display: none;">
+                     Complete Application
+                  </a>
+               </div>
+               <div class="card-body" id="applicationDetails">
+                  <div class="text-center py-4 text-muted">
+                     <i class="bi bi-hourglass-split fs-1 mb-3"></i>
+                     <p>Loading application details...</p>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Personal Details Card -->
+            <div class="card">
+               <div class="card-header d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-person-lines-fill me-2"></i>Personal Information</span>
+                  <button class="btn btn-sm btn-outline-primary" onclick="openEditModal()">
+                     <i class="bi bi-pencil-square me-1"></i>Edit Profile
+                  </button>
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="info-row">
+                           <div class="info-label">Full Name</div>
+                           <div class="info-value" id="dispFullName">-</div>
+                        </div>
+                        <div class="info-row">
+                           <div class="info-label">Date of Birth</div>
+                           <div class="info-value" id="dispDOB">-</div>
+                        </div>
+                        <div class="info-row">
+                           <div class="info-label">Occupation</div>
+                           <div class="info-value" id="dispOccupation">-</div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="info-row">
+                           <div class="info-label">Phone Number</div>
+                           <div class="info-value" id="dispPhone">-</div>
+                        </div>
+                        <div class="info-row">
+                           <div class="info-label">Current Address</div>
+                           <div class="info-value" id="dispAddress">-</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Actions -->
+         <div class="col-md-4">
+            <div class="card">
+               <div class="card-header">
+                  <i class="bi bi-lightning-charge me-2"></i>Quick Actions
+               </div>
+               <div class="card-body">
+                  <div class="d-grid gap-2">
+                     <button class="btn btn-success text-start" id="viewNIDBtn" style="display: none;" onclick="viewNID()">
+                        <i class="bi bi-credit-card-2-front me-2"></i>View My NID
+                     </button>
+                     <button class="btn btn-outline-primary text-start" id="downloadAppBtn" onclick="downloadApplication()">
+                        <i class="bi bi-file-earmark-pdf me-2"></i>Download Application
+                     </button>
+                     <button class="btn btn-outline-primary text-start" onclick="window.location.href='contact.html'">
+                        <i class="bi bi-question-circle me-2"></i>Help & Support
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Edit Profile Modal -->
+   <div class="modal fade" id="editProfileModal" tabindex="-1">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Profile</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+               <form id="editProfileForm">
+                  <div class="mb-3">
+                     <label class="form-label">Full Name</label>
+                     <input type="text" class="form-control" id="editFullName" required>
+                  </div>
+                  <div class="mb-3">
+                     <label class="form-label">Date of Birth</label>
+                     <input type="date" class="form-control" id="editDOB" required>
+                  </div>
+                  <div class="mb-3">
+                     <label class="form-label">Occupation</label>
+                     <input type="text" class="form-control" id="editOccupation">
+                  </div>
+                  <div class="mb-3">
+                     <label class="form-label">Phone Number</label>
+                     <input type="tel" class="form-control" id="editPhone" required>
+                  </div>
+                  <div class="mb-3">
+                     <label class="form-label">Address</label>
+                     <textarea class="form-control" id="editAddress" rows="3" required></textarea>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+               <button type="submit" form="editProfileForm" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
    <div id="footer"></div>
+
    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="../js/index.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+   <script>
+      // Load header and footer
+      fetch('../components/header.html')
+         .then(response => response.text())
+         .then(data => { document.getElementById('header').innerHTML = data; });
+      
+      fetch('../components/footer.html')
+         .then(response => response.text())
+         .then(data => { document.getElementById('footer').innerHTML = data; });
+
+      $(document).ready(function() {
+         checkAuth();
+         $('#logoutBtn').on('click', logout);
+      });
+
+      async function checkAuth() {
+         const token = localStorage.getItem('token');
+         if (!token) { window.location.href = 'login.html'; return; }
+
+         try {
+            // Get User/Citizen Data
+            const citizenResponse = await fetch('/api/citizens/my-profile', {
+               headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (citizenResponse.ok) {
+               const result = await citizenResponse.json();
+               if (result.success && result.data) {
+                  const citizenData = result.data;
+                  window.citizenData = citizenData;
+                  
+                  // Update UI Components
+                  displayCitizenHeader(citizenData);
+                  displayCitizenDetails(citizenData);
+                  updateStatusBadge(citizenData.applicationStatus || 'initial');
+               }
+            } else {
+               // Fallback if no citizen record exists for the user yet
+               const userResponse = await fetch('/api/citizens/me', {
+                  headers: { 'Authorization': `Bearer ${token}` }
+               });
+               const user = await userResponse.json();
+               $('#userName').text(user.fullName);
+               $('#userEmail').text(user.email);
+               $('#applicationStatus').addClass('status-initial').text('Not Started');
+               $('#completeAppBtn').show();
+            }
+
+         } catch (error) {
+            console.error('Error:', error);
+            logout();
+         }
+      }
+
+      function displayCitizenHeader(citizen) {
+         $('#userName').text(citizen.user.fullName);
+         $('#userEmail').text(citizen.user.email);
+         
+         if (citizen.photo) {
+            $('#profileAvatar').html(`<img src="${citizen.photo}" alt="${citizen.user.fullName}">`);
+         } else {
+            $('#profileAvatar').html('<i class="bi bi-person"></i>');
+         }
+      }
+
+      function displayCitizenDetails(citizen) {
+         $('#dispFullName').text(citizen.user.fullName);
+         $('#dispDOB').text(new Date(citizen.dob).toLocaleDateString());
+         $('#dispOccupation').text(citizen.occupation || 'N/A');
+         $('#dispPhone').text(citizen.phoneNumber);
+         $('#dispAddress').text(citizen.address);
+      }
+
+      function updateStatusBadge(status) {
+         const badge = $('#applicationStatus');
+         badge.removeClass().addClass('status-badge');
+         
+         if (status === 'initial') {
+            badge.addClass('status-initial').text('Not Started');
+            $('#completeAppBtn').show();
+            $('#applicationDetails').html('<p class="text-muted">You have not submitted your application yet.</p>');
+         } else if (status === 'pending') {
+            badge.addClass('status-pending').text('Under Review');
+            $('#applicationDetails').html(`
+               <div class="alert alert-info">
+                  <i class="bi bi-clock-history me-2"></i>
+                  <strong>Application Submitted!</strong>
+                  <p class="mb-0 mt-2">Your application is currently being processed. We will notify you once approved.</p>
+               </div>
+            `);
+         } else if (status === 'approved') {
+            badge.addClass('status-approved').text('Approved');
+            fetchNIDDetails();
+         } else if (status === 'rejected') {
+            badge.addClass('status-rejected').text('Rejected');
+            $('#applicationDetails').html('<div class="alert alert-danger">Your application was not approved. Please contact support.</div>');
+         }
+      }
+
+      async function fetchNIDDetails() {
+         try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/citizens/my-nid', {
+               headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (response.ok) {
+               const data = await response.json();
+               const nid = data.data;
+               window.nidDocument = nid.nidDocument;
+               
+               $('#applicationDetails').html(`
+                  <div class="alert alert-success">
+                     <h5><i class="bi bi-check-circle-fill me-2"></i>NID Issued</h5>
+                     <p class="mb-1">Number: <strong>${nid.nidNumber}</strong></p>
+                     <p>Date: <strong>${new Date(nid.nidIssuedDate).toLocaleDateString()}</strong></p>
+                     <button class="btn btn-sm btn-success" onclick="downloadNID()">
+                        <i class="bi bi-download me-2"></i>Download e-NID
+                     </button>
+                  </div>
+               `);
+               $('#viewNIDBtn').show();
+            }
+         } catch (e) { console.error('NID fetch error', e); }
+      }
+
+      function openEditModal() {
+         if (!window.citizenData) return;
+         const citizen = window.citizenData;
+         $('#editFullName').val(citizen.user.fullName);
+         $('#editDOB').val(citizen.dob ? citizen.dob.split('T')[0] : '');
+         $('#editOccupation').val(citizen.occupation);
+         $('#editPhone').val(citizen.phoneNumber);
+         $('#editAddress').val(citizen.address);
+         new bootstrap.Modal('#editProfileModal').show();
+      }
+
+      $('#editProfileForm').on('submit', async function(e) {
+         e.preventDefault();
+         const saveBtn = $('#saveProfileBtn');
+         saveBtn.prop('disabled', true).text('Saving...');
+         
+         const data = {
+            fullName: $('#editFullName').val(),
+            dob: $('#editDOB').val(),
+            occupation: $('#editOccupation').val(),
+            phoneNumber: $('#editPhone').val(),
+            address: $('#editAddress').val()
+         };
+
+         try {
+            const response = await fetch('/api/citizens/profile', {
+               method: 'PUT',
+               headers: { 
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                  'Content-Type': 'application/json'
+               },
+               body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (result.success) {
+               bootstrap.Modal.getInstance('#editProfileModal').hide();
+               checkAuth();
+            } else { alert(result.message); }
+         } catch (err) { alert('Failed to update profile'); }
+         finally { saveBtn.prop('disabled', false).text('Save Changes'); }
+      });
+
+      async function downloadApplication() {
+         const btn = $('#downloadAppBtn');
+         const original = btn.html();
+         btn.prop('disabled', true).html('<i class="bi bi-hourglass-split me-2"></i>Generating...');
+
+         try {
+            const response = await fetch('/api/citizens/download-application', {
+               headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+            });
+            const result = await response.json();
+            if (result.success) {
+               window.open(result.downloadUrl, '_blank');
+            } else { alert('Failed to generate PDF'); }
+         } catch (e) { alert('Error downloading application'); }
+         finally { btn.prop('disabled', false).html(original); }
+      }
+
+      function viewNID() {
+         if (window.nidDocument) window.open(window.nidDocument, '_blank');
+      }
+
+      function downloadNID() {
+         if (window.nidDocument) {
+            const a = document.createElement('a');
+            a.href = window.nidDocument;
+            a.download = 'My_NID.pdf';
+            a.target = '_blank';
+            a.click();
+         }
+      }
+
+      function logout() {
+         localStorage.removeItem('token');
+         localStorage.removeItem('user');
+         window.location.href = 'login.html';
+      }
+   </script>
 </body>
 </html>

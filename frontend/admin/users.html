@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+<div class="admin-wrapper">
+    <!-- Sidebar -->
+    <div id="content">
+        <!-- Topbar -->
+        
+        <div class="main-container">
+            <div class="page-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="page-title">User Management</h2>
+                    <p class="page-breadcrumb">Manage citizens and administrators</p>
+                </div>
+
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" id="userTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#citizensTab">
+                        <i class="fas fa-users me-2"></i>Citizens
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#adminsTab">
+                        <i class="fas fa-user-shield me-2"></i>Admins
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Citizens List -->
+                <div class="tab-pane fade show active" id="citizensTab">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Registered Citizens</h5>
+                            <button class="btn btn-sm btn-outline-primary" onclick="loadUsers()">
+                                <i class="fas fa-sync-alt me-1"></i>Refresh
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Joined Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="citizensTableBody">
+                                    <tr><td colspan="4" class="text-center py-4">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admins List -->
+                <div class="tab-pane fade" id="adminsTab">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Administrators</h5>
+                            <a href="admin_signup.html" class="btn btn-sm btn-primary">
+                                <i class="fas fa-plus me-1"></i>Add Admin
+                            </a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Joined Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminsTableBody">
+                                    <tr><td colspan="5" class="text-center py-4">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/admin_common.js"></script>
+<script>
+    $(document).ready(function() {
+        loadUsers();
+    });
+
+    function loadUsers() {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        $.ajax({
+            url: '/api/users',
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${token}` },
+            success: function(response) {
+                const users = response.data;
+                const citizens = users.filter(u => u.role === 'citizen');
+                const admins = users.filter(u => u.role === 'admin');
+                
+                renderTable('#citizensTableBody', citizens, false);
+                renderTable('#adminsTableBody', admins, true);
+            },
+            error: function(err) {
+                console.error('Error loading users:', err);
+                alert('Failed to load users');
+            }
+        });
+    }
+
+    function renderTable(selector, users, isAdminTab) {
+        const tbody = $(selector);
+        tbody.empty();
+
+        if (users.length === 0) {
+            tbody.html('<tr><td colspan="5" class="text-center py-4">No users found</td></tr>');
+            return;
+        }
+
+        users.forEach(user => {
+            const joinedDate = new Date(user.createdAt).toLocaleDateString();
+            const photoHtml = user.photo 
+                ? `<img src="${user.photo}" class="avatar-circle rounded-circle border shadow-sm" style="width: 40px; height: 40px; object-fit: cover; margin-right: 12px;">`
+                : `<div class="avatar-circle bg-primary text-white me-2">${user.fullName.charAt(0).toUpperCase()}</div>`;
+
+            const row = `
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            ${photoHtml}
+                            <span class="fw-bold">${user.fullName}</span>
+                        </div>
+                    </td>
+                    <td>${user.email}</td>
+                    <td>${joinedDate}</td>
+                    <td>
+                        <button class="btn btn-sm btn-icon btn-danger-soft" onclick="deleteUser('${user._id}')" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tbody.append(row);
+        });
+    }
+
+    function deleteUser(id) {
+        if (!confirm('Are you sure you want to delete this user? This will also remove their citizen application.')) return;
+
+        const token = localStorage.getItem('token');
+        $.ajax({
+            url: `/api/users/${id}`,
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` },
+            success: function() {
+                loadUsers(); 
+            },
+            error: function(err) {
+                alert('Failed to delete user');
+            }
+        });
+    }
+</script>
+</body>
+</html>
