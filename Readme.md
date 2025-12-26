@@ -19,8 +19,6 @@
     <a href="#key-features"><strong>Explore the features »</strong></a>
     <br />
     <br />
-    <a href="#demo">View Demo</a>
-    ·
     <a href="https://github.com/Thabithx/eCitizen/issues">Report Bug</a>
     ·
     <a href="https://github.com/Thabithx/eCitizen/issues">Request Feature</a>
