@@ -69,31 +69,31 @@ I engineered a **fully automated ID generation pipeline** that combines PDF rend
 
 ## Key Features
 
-### 🆔 Automated National ID Generation
+### Automated National ID Generation
 A sophisticated identity issuance engine that generates unique National IDs with embedded QR codes. Each ID is rendered as a professional PDF document with cryptographic verification, ensuring authenticity and preventing fraud.
 
-### 🔒 Secure Authentication System
+### Secure Authentication System
 Enterprise-grade security with JWT-based session management and bcrypt password encryption. Role-based access control ensures citizens, admins, and support staff each access only their authorized resources.
 
-### 📄 Intelligent Document Processing
+### Intelligent Document Processing
 Seamless file upload system powered by Multer and Cloudinary, handling medical reports, income proof, and identity documents. Automatic validation ensures only compliant documents are accepted.
 
-### 🏥 Healthcare Benefit Integration
+### Healthcare Benefit Integration
 Automatic issuance of digital healthcare benefit cards upon application approval. Citizens can access medical services using their verified digital identity, streamlining healthcare delivery.
 
-### 👨‍💼 Admin Command Center
+### Admin Command Center
 A powerful dashboard for government officials to manage the entire platform. Features real-time application tracking, citizen database management, and analytics on approval rates and processing times.
 
-### 📊 Application Workflow Engine
+### Application Workflow Engine
 Smart state management that tracks each application from submission through review to final approval. Real-time status updates keep citizens informed throughout the verification process.
 
-### 💬 Integrated Support System
+### Integrated Support System
 Centralized FAQ management and citizen messaging system. Admins can respond to inquiries, update help documentation, and track support metrics, all from a unified interface.
 
-### 🔔 Real-Time Notifications
+### Real-Time Notifications
 Intelligent notification system that alerts citizens about application status changes, admin responses, and important updates. Never miss a critical update about your digital identity.
 
-### 📱 Responsive Design
+### Responsive Design
 Fully mobile-optimized interface ensuring citizens can apply for and manage their digital ID from any device. Progressive enhancement ensures functionality even on slower connections.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
