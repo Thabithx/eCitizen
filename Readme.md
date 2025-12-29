@@ -51,9 +51,9 @@
 
 ## About The Project
 
-Do you remember when you were kids and you had to get a national id you were required to fill in all the documents physically take a picture and paste it on the form and gather other documents and send it and wait for months to recieve your national id....well yea its still the same..everything has changed but not that... so why not try to change it, today we are introducing our government's official electronic national id registration system. Now you can apply for your national ID fast and easily from the comfort of your home, without going through all the stone age painful processes and save yourself so much time.
+ECitizen revolutionizes how apply for your national ID and other government related services, making fast and easy and possible from the comfort of your home, without going through all the stone age painful processes and save yourself so much time.
 
-I engineered a **fully automated ID generation pipeline** that combines PDF rendering, QR code cryptography, and cloud storage to deliver secure digital identities in seconds. The system handles everything from document verification to benefit card issuance, with an admin workflow that processes applications at scale while maintaining data integrity and security compliance.
+engineered a **fully automated ID generation pipeline** that combines PDF rendering, QR code cryptography, and cloud storage to deliver secure digital identities in seconds. The system handles everything from document verification to benefit card issuance, with an admin workflow that processes applications at scale while maintaining data integrity and security compliance.
 
 ### Built With
 
